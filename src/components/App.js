@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { database } from '../firebase';
+import _ from 'lodash';
 
 
 
@@ -9,11 +10,33 @@ class App extends Component {
     super(props);
     this.state = {
       title: '',
-      body: ''
+      body: '',
+      posts: {}
     };
     //bind
     this.onInputChange = this.onInputChange.bind(this)
     this.OnHandleSubmit = this.OnHandleSubmit.bind(this)
+  }
+
+  //lifecycle method 
+  componentDidMount(){
+    database.on('value', snapshot => {
+      this.setState({
+        posts: snapshot.val()
+      });
+    });
+  }
+
+  // render posts from firebase 
+  renderPosts(){
+    return _.map(this.state.posts, (post, key) => {
+      return (
+        <div key={key}>
+          <h2>{post.title}</h2>
+          <p>{post.body}</p>
+        </div>
+        )
+    });
   }
 
   onInputChange(e) {
@@ -65,6 +88,8 @@ class App extends Component {
           </div>
           <button className="btn btn-primary"> Post </button>
         </form>
+        <br/>
+        {this.renderPosts()}
       </div>
     );
   }
