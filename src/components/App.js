@@ -28,7 +28,12 @@ class App extends Component {
       title: this.state.title,
       body: this.state.body
     };
-    database.push(post)
+    database.push(post);
+
+    this.setState({
+      title: '', 
+      body: ''
+    });
   }
 
 
@@ -38,6 +43,7 @@ class App extends Component {
         <form onSubmit={this.OnHandleSubmit}>
           <div className="form-group">
             <input 
+              value={this.state.title}
               type="text" 
               name="title" 
               placeholder="Title" 
@@ -48,6 +54,7 @@ class App extends Component {
           </div>
           <div className="form-group">
             <input 
+              value={this.state.body}
               type="text" 
               name="body" 
               placeholder="Body" 
