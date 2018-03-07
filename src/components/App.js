@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { database } from '../firebase';
 import _ from 'lodash';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import renderHTML from 'react-render-html';
 
 
 
@@ -15,7 +18,9 @@ class App extends Component {
     };
     //bind
     this.onInputChange = this.onInputChange.bind(this)
+    this.onHandleChange = this.onHandleChange.bind(this)
     this.OnHandleSubmit = this.OnHandleSubmit.bind(this)
+
   }
 
   //lifecycle method 
@@ -33,16 +38,21 @@ class App extends Component {
       return (
         <div key={key}>
           <h2>{post.title}</h2>
-          <p>{post.body}</p>
+          <p>{renderHTML(post.body)}</p>
         </div>
         )
     });
   }
 
   onInputChange(e) {
+    this.setState({ title: e.target.value})
+  }
+
+  onHandleChange(e) {
     this.setState({
-      [e.target.name]: e.target.value
-    })
+      body: e
+    });
+    console.log(this.state.body)
   }
 
   OnHandleSubmit(e) {
@@ -76,14 +86,12 @@ class App extends Component {
             />
           </div>
           <div className="form-group">
-            <input 
+            <ReactQuill 
+              modules={App.modules}
+              formats={App.formats}
               value={this.state.body}
-              type="text" 
-              name="body" 
               placeholder="Body" 
-              onChange={this.onInputChange} 
-              ref="body" 
-              className="form-control" 
+              onChange={this.onHandleChange} 
             />
           </div>
           <button className="btn btn-primary"> Post </button>
@@ -94,5 +102,35 @@ class App extends Component {
     );
   }
 }
+
+App.modules = {
+  toolbar : [
+    [{ header : '1'}, {header: '2'}, {font: [] }],
+    [{size: []}],
+    ['bold', 'italic', 'undeline', 'strike', 'blockquote'],
+    [{'list': 'ordered'}, {'list': 'bullet'}],
+    ['link', 'image', 'video'],
+    ['clean'],
+    ['code-block']
+
+  ]
+};
+
+App.formats = [
+  'header',
+  'font',
+  'size',
+  'bold',
+  'italic', 
+  'undeline', 
+  'strike', 
+  'blockquote', 
+  'list', 
+  'bullet', 
+  'link', 
+  'image', 
+  'video', 
+  'code-block'
+]
 
 export default App;
