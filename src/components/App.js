@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-
 import _ from 'lodash';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import renderHTML from 'react-render-html';
 import {connect} from 'react-redux';
 import {getPosts, savePosts, deletePost} from '../actions/postsAction';
-
+import PostCard from './postCard';
 
 
 
@@ -36,12 +35,14 @@ class App extends Component {
   renderPosts(){
     return _.map(this.props.posts, (post, key) => {
       return (
-        <div key={key}>
+        <PostCard key={key}>
           <h2>{post.title}</h2>
           <p>{renderHTML(post.body)}</p>
-          <button className="btn btn-danger btn-xs" onClick={()=> this.props.deletePost(key)}>Delete</button>
-        </div>
-        )
+          <button className="btn btn-danger btn-xs" onClick={()=> this.props.deletePost(key)}>
+            Delete
+          </button>
+        </PostCard>
+        );
     });
   }
 
