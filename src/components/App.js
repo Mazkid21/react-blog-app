@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import { database } from '../firebase';
+
 import _ from 'lodash';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import renderHTML from 'react-render-html';
+import {connect} from 'react-redux';
+import {getPosts, savePosts, deletePost} from '../actions/postsAction';
+
 
 
 
@@ -13,8 +16,7 @@ class App extends Component {
     super(props);
     this.state = {
       title: '',
-      body: '',
-      posts: {}
+      body: ''
     };
     //bind
     this.onInputChange = this.onInputChange.bind(this)
@@ -25,20 +27,19 @@ class App extends Component {
 
   //lifecycle method 
   componentDidMount(){
-    database.on('value', snapshot => {
-      this.setState({
-        posts: snapshot.val()
-      });
-    });
+    this.props.getPosts();
+
   }
+
 
   // render posts from firebase 
   renderPosts(){
-    return _.map(this.state.posts, (post, key) => {
+    return _.map(this.props.posts, (post, key) => {
       return (
         <div key={key}>
           <h2>{post.title}</h2>
           <p>{renderHTML(post.body)}</p>
+          <button className="btn btn-danger btn-xs" onClick={()=> this.props.deletePost(key)}>Delete</button>
         </div>
         )
     });
@@ -61,8 +62,7 @@ class App extends Component {
       title: this.state.title,
       body: this.state.body
     };
-    database.push(post);
-
+    this.props.savePosts(post)
     this.setState({
       title: '', 
       body: ''
@@ -133,4 +133,11 @@ App.formats = [
   'code-block'
 ]
 
-export default App;
+function mapStateToProps(state, props){
+  return {
+    posts: state.posts
+  }
+}
+
+
+export default connect(mapStateToProps, {getPosts, savePosts, deletePost}) (App);
