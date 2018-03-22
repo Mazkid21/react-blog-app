@@ -1,11 +1,11 @@
-import React, {Component} from 'react'; 
+import React from 'react'; 
 
-export default class PostCard extends Component{
-	render(){
-		return(
-			<div className="jumbotron">
-				<div>{this.props.children}</div> 
+const PostCard = (props) => {
+	return(
+		<div className="jumbotron">
+				<div>{props.children}</div> 
 			</div> 
-		);
-	}
-}
+	)
+};
+
+export default PostCard; 
