@@ -6,6 +6,7 @@ import renderHTML from 'react-render-html';
 import {connect} from 'react-redux';
 import {getPosts, savePosts, deletePost} from '../actions/postsAction';
 import PostCard from './postCard';
+import {getUser} from '../actions/userAction';
 
 
 
@@ -27,7 +28,7 @@ class App extends Component {
   //lifecycle method 
   componentDidMount(){
     this.props.getPosts();
-
+    this.props.getUser();
   }
 
 
@@ -136,9 +137,10 @@ App.formats = [
 
 function mapStateToProps(state, props){
   return {
-    posts: state.posts
+    posts: state.posts,
+    user: state.user 
   }
 }
 
 
-export default connect(mapStateToProps, {getPosts, savePosts, deletePost}) (App);
+export default connect(mapStateToProps, {getPosts, savePosts, deletePost, getUser}) (App);
