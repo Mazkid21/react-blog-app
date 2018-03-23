@@ -26,10 +26,10 @@ class App extends Component {
   }
 
   //lifecycle method 
-  componentDidMount(){
-    this.props.getPosts();
-    this.props.getUser();
-  }
+  //componentDidMount(){
+    //this.props.getPosts();
+   // this.props.getUser();
+ //}
 
 
   // render posts from firebase 

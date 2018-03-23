@@ -10,48 +10,31 @@ import { composeWithDevTools} from 'redux-devtools-extension';
 import rootReducer from './reducers';
 import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
 import Login from '../src/components/Login';
+import Header from './routes/Header';
+import LoadingComponent from '../src/components/LoadingComponent';
 
 //create redux store ->  reducers -> 'actions - actionType' | applyMiddleWare()
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 
-const Header = () => (
-	<nav className="navbar navbar-default">
-		<div className="container-fluid"> 
-			<div className="navbar-header">
-				<button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavBar">
-					<span className="icon-bar" />
-					<span className="icon-bar" />
-					<span className="icon-bar" />
-				</button>
-				
-				<Link className="navbar-brand" to="/">
-					DIARY2018
-				</Link>
-			</div>
 
-			<div className="collapse navbar-collapse" id="myNavBar">
-				<ul className="nav navbar-nav navbar-right">
-					<li><Link to="/login">Login</Link></li>
-				</ul>
-			</div> 
-
-		</div>
-	</nav>
-);
 
 //provide the store to react 
 ReactDOM.render(
 	<Provider store={store}>
-	<BrowserRouter>
-		<div>
-			<Header />
-			<Switch>
-				<Route path="/" component={App} exact={true} />
-				<Route path="/login" component={Login} exact={true} />
-			</Switch>
-		</div>
-	</BrowserRouter>
+		<BrowserRouter>
+			<LoadingComponent>
+				<div>
+					<Header />
+					<Switch>
+						<Route path="/login" component={Login} exact={true} />
+			
+							<Route path="/" component={App} exact={true} />
+						
+					</Switch>
+				</div>
+			</LoadingComponent>
+		</BrowserRouter>
 	</Provider>,
 	document.getElementById('root')
 );
