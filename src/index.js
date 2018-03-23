@@ -29,6 +29,13 @@ const Header = () => (
 					DIARY2018
 				</Link>
 			</div>
+
+			<div className="collapse navbar-collapse" id="myNavBar">
+				<ul className="nav navbar-nav navbar-right">
+					<li><Link to="/login">Login</Link></li>
+				</ul>
+			</div> 
+
 		</div>
 	</nav>
 );
