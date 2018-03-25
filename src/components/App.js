@@ -82,8 +82,23 @@ class App extends Component {
 
 
 	render() {
+		var photoStyle = {
+			padding: '20px',
+			borderRadius: '50%'
+		};
+
+
 		return (
 			<div className="container">
+			<div className="col-sm-2 text-center">
+				<img 
+					src={this.props.user.photoURL}
+					height="100px"
+					className="img img-rounded-circle"
+					style={photoStyle}
+					/>
+					<h4 className="username">Welcome back {this.props.user.displayName} </h4>
+			</div>
 				<form onSubmit={this.OnHandleSubmit}>
 					<div className="form-group">
 						<input 
