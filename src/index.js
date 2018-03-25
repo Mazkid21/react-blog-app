@@ -13,6 +13,7 @@ import Login from '../src/components/Login';
 import Header from './routes/Header';
 import LoadingComponent from '../src/components/LoadingComponent';
 import AuthenticatedComponent from '../src/components/AuthenticatedComponent';
+import NoteDetail from '../src/components/NoteDetail';
 
 //create redux store ->  reducers -> 'actions - actionType' | applyMiddleWare()
 
@@ -26,11 +27,12 @@ ReactDOM.render(
 		<BrowserRouter>
 			<LoadingComponent>
 				<div>
-					<Header />
 					<Switch>
 						<Route path="/login" component={Login} exact={true} />
 						<AuthenticatedComponent>
+							<Header />
 							<Route path="/" component={App} exact={true} />
+							<Route path="/:id" component={NoteDetail} exact={true} />
 						</AuthenticatedComponent>
 					</Switch>
 				</div>
