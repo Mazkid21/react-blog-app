@@ -1,23 +1,19 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import renderHTML from 'react-render-html';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {getPosts, savePosts, deletePost} from '../actions/postsAction';
-import PostCard from './postCard';
-import {getUser} from '../actions/userAction';
 import { Link } from 'react-router-dom';
+import renderHTML from 'react-render-html';
+import ReactQuill from 'react-quill';
+import {editPost} from '../actions/postsAction';
 
-
-
-class App extends Component {
+ 
+ 
+class NoteEdit extends Component {
 
 	constructor(props) { 
 		super(props);
 		this.state = {
-			title: '',
-			body: ''
+			title: this.props.post.title,
+			body: this.props.post.body
 
 		};
 		//bind
@@ -43,40 +39,14 @@ class App extends Component {
 		const post = {
 			title: this.state.title,
 			body: this.state.body,
-			uid: this.props.user.uid
+			uid: this.props.uid
 		};
-		this.props.savePosts(post)
+		this.props.editPost(this.props.match.params.id, post);
 		this.setState({
 			title: '', 
 			body: ''
 		});
-	}
-
-
-
-
-	// render posts from firebase 
-	renderPosts(){
-		return _.map(this.props.posts, (post, key) => {
-			return (
-				<PostCard key={key}>
-				<Link to={`/${key}`}>
-					<h2>{post.title}</h2>
-				</Link>
-					<p>{renderHTML(post.body)}</p>
-					{post.uid === this.props.user.uid && (
-						<div>
-							<button className="btn btn-danger btn-xs" onClick={()=> this.props.deletePost(key)} >
-								Delete
-							</button>
-							<button className="btn btn-info btn-xs pull-right">
-								<Link to={`/${key}/edit`}> UPDATE </Link> 
-							</button>
-						</div>
-					)}
-				</PostCard>
-			);
-		});
+		this.props.history.push('/');
 	}
 
 
@@ -98,23 +68,21 @@ class App extends Component {
 					</div>
 					<div className="form-group">
 						<ReactQuill 
-							modules={App.modules}
-							formats={App.formats}
+							modules={NoteEdit.modules}
+							formats={NoteEdit.formats}
 							value={this.state.body}
 							placeholder="Body" 
 							onChange={this.onHandleChange} 
 						/>
 					</div>
-					<button className="btn btn-primary"> Post </button>
+					<button className="btn btn-primary"> UPDATE </button>
 				</form>
-				<br/>
-				{this.renderPosts()}
 			</div>
 		);
 	}
 }
 
-App.modules = {
+NoteEdit.modules = {
 	toolbar : [
 		[{ header : '1'}, {header: '2'}, {font: [] }],
 		[{size: []}],
@@ -127,7 +95,7 @@ App.modules = {
 	]
 };
 
-App.formats = [
+NoteEdit.formats = [
 	'header',
 	'font',
 	'size',
@@ -144,12 +112,13 @@ App.formats = [
 	'code-block'
 ]
 
-function mapStateToProps(state, props){
+
+function mapStateToProps(state, ownProps){
 	return {
-		posts: state.posts,
-		user: state.user 
-	}
+		post: state.posts[ownProps.match.params.id], 
+		uid: state.user.uid
+	};
 }
-
-
-export default connect(mapStateToProps, {getPosts, savePosts, deletePost, getUser}) (App);
+ 
+ 
+export default connect(mapStateToProps, {editPost})(NoteEdit);

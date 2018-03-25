@@ -2,7 +2,7 @@ import React from 'react';
 
 const Comment = (props) => {
 	return (
-		<div> <br/>{props.children}</div>
+		<div>{props.children}</div>
 	)
 };
 

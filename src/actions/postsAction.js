@@ -34,6 +34,10 @@ export function savePosts(post) {
     return disptch => database.push(post);
 }
 
+export function editPost(id, post){
+	return dispatch => database.child(id).update(post);
+}
+
 export function deletePost(id) {
     return dispatch => database.child(id).remove();
 }
