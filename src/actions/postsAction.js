@@ -37,3 +37,9 @@ export function savePosts(post) {
 export function deletePost(id) {
     return dispatch => database.child(id).remove();
 }
+
+export function saveComment(postId, comment){
+	return dispatch => {
+		database.child(postId).child('comments').push(comment);
+	}
+}
