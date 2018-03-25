@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {saveComment} from '../actions/postsAction';
 
+
 class SubmitComment extends Component{
 
 	constructor(props){
