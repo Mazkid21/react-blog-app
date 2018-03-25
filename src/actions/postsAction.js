@@ -30,8 +30,8 @@ export function getPosts(){
 	};
 }
 
-export function savePosts(note) {
-    return disptch => database.push(note);
+export function savePosts(post) {
+    return disptch => database.push(post);
 }
 
 export function deletePost(id) {

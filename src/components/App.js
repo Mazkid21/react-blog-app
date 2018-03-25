@@ -60,7 +60,7 @@ class App extends Component {
 		return _.map(this.props.posts, (post, key) => {
 			return (
 				<PostCard key={key}>
-				<Link to={'/${key}'}>
+				<Link to={`/${key}`}>
 					<h2>{post.title}</h2>
 				</Link>
 					<p>{renderHTML(post.body)}</p>
